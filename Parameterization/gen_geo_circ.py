@@ -113,20 +113,11 @@ def polar1(x, y):
     return round(rads,1), round(theta_1,2)
 
 for i in range(len(ele)):
-    counter=0
-    counter1=0
-    for j in range(4):
-        radius,angle=(polar1(ele[i][j][0],ele[i][j][1]))
-        if(round(radius,1)>=round(r[-2],1)
-           and round(radius,1) <= round(r[-1],1) 
-           and round((angle),1) >= round(math.degrees(theta[0]),1) 
-           and round((angle),1) <= round(math.degrees(theta[-1]),1)):
-            counter=counter+1
-        if(counter==4):
-            rx,ry=zip(*ele[i])
-            metal.append(i)
-            plt.plot(rx,ry,color='black')
-                    
+
+    radius,angle=(polar1(ele[i][0][0],ele[i][0][1]))
+    if(round(radius,1)==round(r[-2],1)):      
+        metal.append(i)
+              
             
 #plt.show()
 
@@ -152,26 +143,12 @@ rad_val = args.r[0]
 #polygon1 = Polygon(metal_polygon)
 
 for i in range(len(ele)):
-    counter=0
-    #if(ele[i][j][0]>0 and ele[i][j][1]>0):
-    xs,ys=zip(*ele[i])
-    plt.plot(xs,ys,color='yellow')
-
-    #if(i not in metal):
-    for j in range(4):
-        #if(polygon1.contains(Point(ele[i][j][0], ele[i][j][1]))):  #  ele[i][j][0]>=0 and ele[i][j][1]>=0):
-        radius,angle=(polar1(ele[i][j][0],ele[i][j][1]))
+    
+    radius,angle=(polar1(ele[i][0][0],ele[i][0][1]))
    
-        if(round(radius,1)>=round(r[0],1) and 
-           round(radius,1) <= round(r[rad_val],1) and 
-           round((angle),1) >= round(math.degrees(theta[0]),1) and
-           round((angle),1) <= round(math.degrees(theta[-1]),1)):
-            counter=counter+1
-        if(counter==4):            
-            ax,ay=zip(*ele[i])
-            metal.append(i)
-            plt.plot(ax,ay,color='black')
-
+    if(round(radius,1) <= round(r[rad_val],1)): 
+        metal.append(i)
+            
 
 #plt.plot([x[0] for x in metal_polygon],[x[1] for x in metal_polygon],color='black')
 
@@ -303,7 +280,7 @@ polygon4 = Polygon(polygon4)
 
 for i in range(len(ele)):
     p1_counter=p2_counter=p3_counter=p4_counter=0
-    for j in range(4):
+    for j in range(2):
         if(i in metal):
             pass
         else:

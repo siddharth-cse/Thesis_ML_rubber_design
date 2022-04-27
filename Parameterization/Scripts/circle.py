@@ -7,7 +7,7 @@ Created on Tue Apr 26 13:04:02 2022
 
 import os
 import numpy as np
-
+import time
 
 dir='../'
 
@@ -31,10 +31,10 @@ h --> -θ2 = [0-90]
 i --> r = [1-13]
 '''
 
-for d in angles:
-    print(d)
-    theta2=np.linspace(int(d),90,(17-int(d))+1)
-    print(theta2)
+#for d in angles:
+#    print(d)
+#    theta2=np.linspace(int(d),90,(17-int(d))+1)
+#    print(theta2)
     #for h in theta2:
     #    print(d,h)
 
@@ -51,9 +51,9 @@ for a in range(0,16):
                                 for i in range(1,13)
 '''
 
-'''
 
 for i in range(2):
+    start=time.time()
     counter=1
     py="python "+dir+"gen_geo_circ.py"
     parameters=" -p 5 8 5 2 7 5 60 10 "
@@ -62,8 +62,9 @@ for i in range(2):
     counter=" -c "+str(count)
     iter_n=" -i "+str(i)
     cmd=py+parameters+radius+counter+iter_n
-    print(cmd)
+    #print(cmd)
     os.system(cmd)
+    stop=time.time()
+    print((stop-start)/60)
 
 
-'''
