@@ -51,20 +51,35 @@ for a in range(0,16):
                                 for i in range(1,13)
 '''
 
+p1_range=[0,3,6,9,12,15]
+p2_range=[3,6,9,12,15,18]
 
-for i in range(2):
-    start=time.time()
-    counter=1
-    py="python "+dir+"gen_geo_circ.py"
-    parameters=" -p 5 8 5 2 7 5 60 10 "
-    radius="-r 5"
-    count=count+1
-    counter=" -c "+str(count)
-    iter_n=" -i "+str(i)
-    cmd=py+parameters+radius+counter+iter_n
-    #print(cmd)
-    os.system(cmd)
-    stop=time.time()
-    print((stop-start)/60)
+counter=1
 
+
+#parameter=[irp1, r1, t1, opr1, irp2, r2, t2, orp2]
+
+
+for i in p1_range:
+    for j in p2_range:
+        if(i>j):
+            continue
+        if(i==j):
+            continue
+        for k in p1_range:
+            for l in p2_range:
+                if(k>l):
+                    continue
+                if(k==l):
+                    continue
+                py="python "+dir+"gen_geo_circ.py"
+                parameters=" -p "+str(i)+" 0 0 "+str(k)+" "+str(j)+" 0 0 "+str(l)+" "
+                radius="-r 5"
+                count=count+1
+                counter=" -c "+str(count)
+                iter_n=" -i "+"Iteration="+str(i)+","+str(j)+","+str(k)+","+str(l)
+                cmd=py+parameters+radius+counter+iter_n
+                os.system(cmd)
+                print("Iteration="+str(i)+","+str(j)+","+str(k)+","+str(l))
+        
 

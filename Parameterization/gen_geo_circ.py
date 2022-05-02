@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('-p', type=int, nargs=8,help='parameters for rubber geometry')
 parser.add_argument('-r', type=int, nargs=1,help='parameters for insert geometry')
 parser.add_argument('-c', type=int, nargs=1,help='counter for file name')
-parser.add_argument('-i',type=int, nargs=1,help='counter for interation number')
+parser.add_argument('-i',type=str, nargs=1,help='counter for interation number')
 args = parser.parse_args()
 
 print(args.p,args.r,args.c,args.i)
@@ -195,17 +195,15 @@ for i in range((N-1)*thetasteps):
         if(counter==4):
             xs,ys=zip(*ele[i])
             plt.plot(xs,ys,color='gray')
-            x_avg=xs[0]+xs[1]+xs[2]+xs[3]
-            y_avg=ys[0]+ys[1]+ys[2]+ys[3]
-            cordinate_list.append(([(x_avg/4)-0.5,(y_avg/4)-0.5]))
+            #x_avg=xs[0]+xs[1]+xs[2]+xs[3]
+            #y_avg=ys[0]+ys[1]+ys[2]+ys[3]
+            cordinate_list.append(([xs[0],ys[0]]))
 
 
-parameter=args.p  #both curved
-#parameter=[5,8,5,2,7,0,0,10]   #2 is line
-#parameter=[5,0,0,2,15,0,0,10]   #1 is line
+parameter=args.p  
 
-a,b = zip(*cordinate_list)
-plt.scatter(a,b,color='red')
+#a,b = zip(*cordinate_list)
+#plt.scatter(a,b,color='red')
 
 
 polygon_list=[]
@@ -249,10 +247,7 @@ if(parameter[5]!=0 and parameter[6]!=0):
     polygon_list.append([cordinate_list[parameter[4]]])
 
     
-
-    
 polygon_list.append(polygon_list[0])
-
 
 polygon1=[]
 polygon2=[]
@@ -265,7 +260,10 @@ for x in polygon_list:
     polygon3.append((round(-x[0][0],2),round(-x[0][1],2)))
     polygon4.append((round(x[0][0],2),round(-x[0][1],2)))
 
-
+plt.plot(*zip(*polygon1),color='k')
+plt.plot(*zip(*polygon2),color='k')
+plt.plot(*zip(*polygon3),color='k')
+plt.plot(*zip(*polygon4),color='k')
 
 
 polygon1 = Polygon(polygon1)
@@ -274,13 +272,18 @@ polygon3 = Polygon(polygon3)
 polygon4 = Polygon(polygon4)
 
 
+plt.savefig("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/2D_cross_sec_images/circle_insert/"+fil_name+"_polygon_view.png")
+
+
+plt.clf()
+
 
 #____________ append rubber node list on all 4 quadrants ______________________
 
 
 for i in range(len(ele)):
     p1_counter=p2_counter=p3_counter=p4_counter=0
-    for j in range(2):
+    for j in range(4):
         if(i in metal):
             pass
         else:
@@ -368,9 +371,10 @@ file = open("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/Meta_dat
 writer = csv.writer(file)
 
 
-writer.writerow([fil_name,Insert_config,Geo_config,polygon_list,args.i])
+writer.writerow([fil_name,Insert_config,Geo_config,polygon_list,args.i,args.p])
 
 file.close()
 
+print(fil_name+" witten")
 
 
