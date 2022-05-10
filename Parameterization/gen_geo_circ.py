@@ -15,7 +15,7 @@ import sys
 import argparse
 import csv
 import os
-
+import random
 
 #print(os.getcwd())
 parser = argparse.ArgumentParser(description='Process some integers.')
@@ -30,9 +30,17 @@ print(args.p,args.r,args.c,args.i)
 Insert_config='circle'
 fil_name=Insert_config+str(args.c[0])
 
+os.makedirs("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/Abaqus_input_files/C_insert/"+fil_name)
+
+OR_list=[45,50,55,60,65]
+Hardness_list=[1.5,2,2.5,3,3.5,4]
+
+
+
 N= 17
 IR=15
-OR=50
+#OR=50 
+OR=random.choice(OR_list)  #selecting random outer radii among OR_list
 r= np.linspace(IR, OR, N)
 thetasteps= 72
 dt=2*np.pi/thetasteps
@@ -260,11 +268,11 @@ for x in polygon_list:
     polygon3.append((round(-x[0][0],2),round(-x[0][1],2)))
     polygon4.append((round(x[0][0],2),round(-x[0][1],2)))
 
-plt.plot(*zip(*polygon1),color='k')
-plt.plot(*zip(*polygon2),color='k')
-plt.plot(*zip(*polygon3),color='k')
-plt.plot(*zip(*polygon4),color='k')
 
+#plt.plot(*zip(*polygon1),color='k')
+#plt.plot(*zip(*polygon2),color='k')
+#plt.plot(*zip(*polygon3),color='k')
+#plt.plot(*zip(*polygon4),color='k')
 
 polygon1 = Polygon(polygon1)
 polygon2 = Polygon(polygon2)
@@ -272,11 +280,10 @@ polygon3 = Polygon(polygon3)
 polygon4 = Polygon(polygon4)
 
 
-plt.savefig("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/2D_cross_sec_images/circle_insert/"+fil_name+"_polygon_view.png")
+#plt.savefig("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/2D_cross_sec_images/circle_insert/"+fil_name+"_polygon_view.png")
 
 
 plt.clf()
-
 
 #____________ append rubber node list on all 4 quadrants ______________________
 
@@ -317,13 +324,13 @@ for i in range(((N-1)*thetasteps)):
     
 plt.rcParams['figure.figsize'] = [40, 40]
 plt.axis('off')
-plt.savefig("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/2D_cross_sec_images/circle_insert/"+fil_name+".svg")
+#plt.savefig("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/2D_cross_sec_images/circle_insert/"+fil_name+".svg")
 plt.savefig("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/2D_cross_sec_images/circle_insert/"+fil_name+".png")
 
 
 #__________________________________________ writing .inp file _______________________________________
 
-f = open("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/Abaqus_input_files/C_insert/"+fil_name+".inp", "w")
+f = open("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/Abaqus_input_files/C_insert/"+fil_name+"/"+fil_name+".inp", "w")
 f.write("**\n*HEADING\n**\n**\n**\n**\n*NODE\n")
 
 for i in range(len(nodes)):
@@ -361,8 +368,14 @@ for i in range(len(metal)):
 
 
 # The static part of the file which remains constant for all geometeries 
-f_1 = open("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/static_text_for_inp_with_MPC.txt", "r")
+f_1 = open("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/static_text_for_inp_with_MPC1.txt", "r")
 f.write(f_1.read())
+hardness=random.choice(Hardness_list)
+f.write("\n\t"+str(hardness)+",\t0.495\n")
+f_2 = open("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/static_text_for_inp_with_MPC2.txt", "r")
+f.write(f_2.read())
+
+
 f.close()
 
 # In[14]:
@@ -371,7 +384,7 @@ file = open("C:/Users/SRAMESH3/Thesis_ML_rubber_design/Parameterization/Meta_dat
 writer = csv.writer(file)
 
 
-writer.writerow([fil_name,Insert_config,Geo_config,polygon_list,args.i,args.p])
+writer.writerow([fil_name,Insert_config,Geo_config,polygon_list,args.i,args.p,args.r,OR,hardness,len(rubber),len(metal)])
 
 file.close()
 

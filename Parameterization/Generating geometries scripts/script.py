@@ -1,13 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Apr 16 14:38:46 2022
-
-@author: SRAMESH3
-"""
-
 import os
 
 
-for i in range(5):
-    counter=1
-    os.system("python temp.py -p 1 2 3 4 5 6 7 "+str(i)+" -r 4" )
+for i in range(3):
+    os.makedirs("folder"+str(i))
+    

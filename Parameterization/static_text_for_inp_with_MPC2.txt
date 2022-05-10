@@ -1,0 +1,86 @@
+** 
+**
+** 
+** SETS
+** 
+*NSET, NSET=SET_LOAD_NODE
+   25705,
+*NSET, NSET=SET_BC_NODE
+   25706,
+**
+** STEPS
+**
+**
+** STEP 1
+**
+*STEP, NAME=Load_X_direction, NLGEOM=YES
+*STATIC
+                      1.,                       1.,                      0.1,                       1.
+**
+** BOUNDARY
+**
+*BOUNDARY, TYPE=DISPLACEMENT, OP=NEW
+SET_LOAD_NODE,        1,         ,                      0.2
+SET_LOAD_NODE,        2,        6,                       0.
+SET_BC_NODE,        1,        6,                       0.
+*OUTPUT, FIELD
+*ELEMENT OUTPUT
+NE,
+S,
+*NODE OUTPUT
+U,
+*NODE PRINT, FREQUENCY=100, NSET=SET_LOAD_NODE
+RF1,
+*EL PRINT, FREQUENCY=100
+NE,
+*END STEP
+**
+** STEP 2
+**
+*STEP, NAME=Load_Y_direction, NLGEOM=YES
+*STATIC
+                      1.,                       1.,                      0.1,                       1.
+**
+** BOUNDARY
+**
+*BOUNDARY, TYPE=DISPLACEMENT, OP=NEW
+SET_LOAD_NODE,        1,         ,                      0
+SET_LOAD_NODE,        2,        ,                       0.2
+SET_LOAD_NODE,        3,        6,                       0.
+SET_BC_NODE,        1,        6,                       0.
+*OUTPUT, FIELD
+*ELEMENT OUTPUT
+NE,
+S,
+*NODE OUTPUT
+U,
+*NODE PRINT, FREQUENCY=100, NSET=SET_LOAD_NODE
+RF2,
+*EL PRINT, FREQUENCY=100
+NE,
+*END STEP
+**
+** STEP 3
+**
+*STEP, NAME=Load_Z_direction, NLGEOM=YES
+*STATIC
+                      1.,                       1.,                      0.1,                       1.
+**
+** BOUNDARY
+**
+*BOUNDARY, TYPE=DISPLACEMENT, OP=NEW
+SET_LOAD_NODE,        1,         2,                      0
+SET_LOAD_NODE,        3,        ,                       0.2
+SET_LOAD_NODE,        4,        6,                       0.
+SET_BC_NODE,        1,        6,                       0.
+*OUTPUT, FIELD
+*ELEMENT OUTPUT
+NE,
+S,
+*NODE OUTPUT
+U,
+*NODE PRINT, FREQUENCY=100, NSET=SET_LOAD_NODE
+RF3,
+*EL PRINT, FREQUENCY=100
+NE,
+*END STEP
